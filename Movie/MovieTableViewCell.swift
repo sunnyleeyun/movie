@@ -2,18 +2,19 @@
 //  MovieTableViewCell.swift
 //  Movie
 //
-//  Created by Sunny on 2016/10/20.
-//  Copyright © 2016年 devhubs. All rights reserved.
+//  Created by Andi Setiyadi on 9/2/16.
+//  Copyright © 2016 devhubs. All rights reserved.
 //
 
 import UIKit
 
 class MovieTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var movieImageView: UIImageView!
+    // MARK: Outlets
     @IBOutlet weak var movieTitleLabel: UILabel!
-    @IBOutlet weak var userRating: UserRating!
     @IBOutlet weak var movieFormatLabel: UILabel!
+    @IBOutlet weak var userRating: UserRating!
+    @IBOutlet weak var movieImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,8 +26,8 @@ class MovieTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    internal func configureCell(movie: Movie){
+
+    internal func configureCell(movie: Movie) {
         movieTitleLabel.text = movie.title
         movieFormatLabel.text = movie.format
         userRating.rating = Int(movie.userRating)
@@ -34,5 +35,4 @@ class MovieTableViewCell: UITableViewCell {
         let imageData = movie.image as! Data
         movieImageView.image = UIImage(data: imageData)
     }
-
 }

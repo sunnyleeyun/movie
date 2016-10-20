@@ -2,34 +2,32 @@
 //  MovieService.swift
 //  Movie
 //
-//  Created by Sunny on 2016/10/20.
-//  Copyright © 2016年 devhubs. All rights reserved.
+//  Created by Andi Setiyadi on 9/2/16.
+//  Copyright © 2016 devhubs. All rights reserved.
 //
 
 import Foundation
 import CoreData
 
-class MovieService{
+class MovieService {
     
-    internal static func getMovies() -> NSFetchedResultsController<Movie>{
-        let managedObjectContext = CoreDataStack().persistentContainer.viewContext
-        let fetchedResultsController: NSFetchedResultsController<Movie>
+    internal static func getMovies(managedObjectContext: NSManagedObjectContext) -> NSFetchedResultsController<Movie> {
+        //let managedObjectContext = CoreDataStack().persistentContainer.viewContext
+        let fetchedResultController: NSFetchedResultsController<Movie>
         
         let request: NSFetchRequest<Movie> = Movie.fetchRequest()
         let sort = NSSortDescriptor(key: "title", ascending: true)
         request.sortDescriptors = [sort]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         
-        do{
-            try fetchedResultsController.performFetch()
+        do {
+            try fetchedResultController.performFetch()
         }
-        catch{
+        catch {
             fatalError("Error in fetching records")
         }
         
-        return fetchedResultsController
-        
+        return fetchedResultController
     }
-
 }

@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func checkDataStore() {
         let moc = coreData.persistentContainer.viewContext
         let request: NSFetchRequest<Movie> = Movie.fetchRequest()
-        
+       
         do {
             let movieCount = try moc.count(for: request)
             
