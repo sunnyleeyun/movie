@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        checkDataStore()
+        
         return true
     }
 
@@ -41,6 +45,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         coreData.saveContext()
+    }
+    
+    func checkDataStore() {
+        let moc = coreData.persistentContainer.viewContext
+        let request: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        do {
+            let movieCount = try moc.count(for: request)
+            
+            if movieCount == 0 {
+                uploadSampleData()
+            }
+        }
+        catch {
+            fatalError("Error in counting movie")
+        }
+    }
+    
+    func uploadSampleData() {
+        let moc = coreData.persistentContainer.viewContext
+        let url = Bundle.main.url(forResource: "movies", withExtension: "json")
+        let data = NSData(contentsOf: url!)
+        
+        do {
+            let jsonResult = try JSONSerialization.jsonObject(with: data! as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+            let jsonArray = jsonResult.value(forKey: "movie") as! NSArray
+            
+            for json in jsonArray {
+                let movieData = json as! [String: AnyObject]
+                let movie = Movie(context: moc)
+                
+                guard let title = movieData["name"] else {
+                    return
+                }
+                movie.title = title as? String
+                
+                guard let userRating = movieData["rating"] else {
+                    return
+                }
+                movie.userRating = userRating.int16Value
+                
+                guard let format = movieData["format"] else {
+                    return
+                }
+                movie.format = format as? String
+                
+                var image: UIImage?
+                if let movieImage = movieData["image"] {
+                    let imageName = movieImage as? String
+                    image = UIImage(named: imageName!)
+                    movie.image = NSData.init(data: UIImageJPEGRepresentation(image!, 1)!)
+                }
+            }
+            
+            coreData.saveContext()
+        }
+        catch {
+            fatalError("Cannot upload sample data")
+        }
     }
 }
 

@@ -10,22 +10,15 @@ import UIKit
 import CoreData
 
 class ViewController: UIViewController {
-    
-    var coreData = CoreDataStack()
+
     var managedObjectContext: NSManagedObjectContext!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
         
-        let movie = Movie(context: coreData.persistentContainer.viewContext)
-        let movies = movie.getMovieInfo(title: "X-Men", context: coreData.persistentContainer.viewContext)
-        
-        if movies != nil{
-            print(movie.format)
-        }
-        else{
-            print("No movie info is found")
-        }
+        let movie = Movie(context: managedObjectContext)
+        let name = movie.title
     }
 
     override func didReceiveMemoryWarning() {
