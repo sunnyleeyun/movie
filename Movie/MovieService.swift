@@ -12,7 +12,6 @@ import CoreData
 class MovieService {
     
     internal static func getMovies(managedObjectContext: NSManagedObjectContext) -> NSFetchedResultsController<Movie> {
-        //let managedObjectContext = CoreDataStack().persistentContainer.viewContext
         let fetchedResultController: NSFetchedResultsController<Movie>
         
         let request: NSFetchRequest<Movie> = Movie.fetchRequest()

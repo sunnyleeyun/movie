@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qVV-Il-Pp4" id="EpU-Cu-oUC">
-                                    <frame key="frameInset" width="375" height="80"/>
+                                    <frame key="frameInset" width="375" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jurassic.png" translatesAutoresizingMaskIntoConstraints="NO" id="FW1-z6-PQc">
@@ -73,7 +73,13 @@
                             <outlet property="delegate" destination="Ab7-y4-Ogr" id="wUQ-LH-ih0"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="My Movies" id="SMJ-OY-1vz"/>
+                    <navigationItem key="navigationItem" title="My Movies" id="SMJ-OY-1vz">
+                        <barButtonItem key="rightBarButtonItem" title="Update Rating" id="vn2-um-qlB">
+                            <connections>
+                                <action selector="updateRatingAction:" destination="Ab7-y4-Ogr" id="Rjo-aN-L2z"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eU9-Nj-61G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
