@@ -63,6 +63,21 @@ class MovieTableViewController: UITableViewController, NSFetchedResultsControlle
         do{
             let batchUpdateResult = try managedObjectContext.execute(batchUpdateRequest) as? NSBatchUpdateResult
             print("Batch update on: \(batchUpdateResult!.result!)")
+            
+            if let result = batchUpdateResult{
+                let objectIds = result.result as! [NSManagedObjectID]
+                
+                for objectIds in objectIds{
+                    let managedObject = managedObjectContext.object(with: objectIds)
+                    
+                    if !managedObject.isFault{
+                        managedObjectContext.stalenessInterval = 0
+                        managedObjectContext.refresh(managedObject, mergeChanges: true)
+                        
+                        
+                    }
+                }
+            }
         }
         catch{
             fatalError("Error performing batch update")
@@ -129,6 +144,7 @@ class MovieTableViewController: UITableViewController, NSFetchedResultsControlle
             print("NSFetchedResultsChangeType.Move detected")
         case NSFetchedResultsChangeType.update:
             print("NSFetchedResultsChangeType.Update detected")
+            tableView.reloadRows(at: [indexPath!], with: UITableViewRowAnimation.fade)
         }
     }
     
