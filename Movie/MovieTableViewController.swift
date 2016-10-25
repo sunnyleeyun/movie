@@ -53,36 +53,6 @@ class MovieTableViewController: UITableViewController, NSFetchedResultsControlle
         return cell
     }
     
-    @IBAction func updateRatingAction(_ sender: UIBarButtonItem) {
-        let managedObjectContext = coreData.persistentContainer.viewContext
-        
-        let batchUpdateRequest = NSBatchUpdateRequest(entityName: "Moive")
-        batchUpdateRequest.propertiesToUpdate = ["userRating": 5]
-        batchUpdateRequest.resultType = .updatedObjectIDsResultType
-        
-        do{
-            let batchUpdateResult = try managedObjectContext.execute(batchUpdateRequest) as? NSBatchUpdateResult
-            print("Batch update on: \(batchUpdateResult!.result!)")
-            
-            if let result = batchUpdateResult{
-                let objectIds = result.result as! [NSManagedObjectID]
-                
-                for objectIds in objectIds{
-                    let managedObject = managedObjectContext.object(with: objectIds)
-                    
-                    if !managedObject.isFault{
-                        managedObjectContext.stalenessInterval = 0
-                        managedObjectContext.refresh(managedObject, mergeChanges: true)
-                        
-                        
-                    }
-                }
-            }
-        }
-        catch{
-            fatalError("Error performing batch update")
-        }
-    }
     
     // MARK: Private function
     
@@ -127,6 +97,15 @@ class MovieTableViewController: UITableViewController, NSFetchedResultsControlle
         }
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if let sections = fetchedResultController.sections{
+            let currentSection = sections[section]
+            
+            return currentSection.name
+        }
+        return ""
+    }
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -150,6 +129,36 @@ class MovieTableViewController: UITableViewController, NSFetchedResultsControlle
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
+    }
+    
+    
+    @IBAction func updateRatingAction(_ sender: UIBarButtonItem) {
+        let managedObjectContext = coreData.persistentContainer.viewContext
+        
+        let batchUpdateRequest = NSBatchUpdateRequest(entityName: "Movie")
+        batchUpdateRequest.propertiesToUpdate = ["userRating": 5]
+        batchUpdateRequest.resultType = .updatedObjectIDsResultType
+        
+        do {
+            let batchUpdateResult = try managedObjectContext.execute(batchUpdateRequest) as? NSBatchUpdateResult
+            print("Batch update on: \(batchUpdateResult!.result!)")
+            
+            if let result = batchUpdateResult {
+                let objectIds = result.result as! [NSManagedObjectID]
+                
+                for objectId in objectIds {
+                    let managedObject = managedObjectContext.object(with: objectId)
+                    
+                    if !managedObject.isFault {
+                        managedObjectContext.stalenessInterval = 0
+                        managedObjectContext.refresh(managedObject, mergeChanges: true)
+                    }
+                }
+            }
+        }
+        catch {
+            fatalError("Error performing batch update")
+        }
     }
     
     /*

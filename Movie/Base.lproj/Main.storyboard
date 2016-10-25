@@ -74,9 +74,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Movies" id="SMJ-OY-1vz">
-                        <barButtonItem key="rightBarButtonItem" title="Update Rating" id="vn2-um-qlB">
+                        <barButtonItem key="rightBarButtonItem" title="Update Rating" id="WUk-O8-olL">
                             <connections>
-                                <action selector="updateRatingAction:" destination="Ab7-y4-Ogr" id="Rjo-aN-L2z"/>
+                                <action selector="updateRatingAction:" destination="Ab7-y4-Ogr" id="xmu-bm-P2P"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

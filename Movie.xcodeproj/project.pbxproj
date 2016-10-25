@@ -79,7 +79,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7B4285581D84AF81001364F2 /* controller */ = {
+		7B42855B1D84B6E3001364F2 /* controller */ = {
 			isa = PBXGroup;
 			children = (
 				7B6519F71D7A74BE000D1361 /* MovieTableViewController.swift */,
@@ -124,7 +124,7 @@
 			children = (
 				7BAB07F91D7A815C00A255B9 /* model */,
 				7B6519F61D7A74A7000D1361 /* view */,
-				7B4285581D84AF81001364F2 /* controller */,
+				7B42855B1D84B6E3001364F2 /* controller */,
 				7BC5BF811D7A57B2007BAE5A /* images */,
 				7BC5BF921D7A57B2007BAE5A /* movies.json */,
 				7BC5BF801D7A57B2007BAE5A /* CoreDataStack.swift */,

@@ -15,10 +15,11 @@ class MovieService {
         let fetchedResultController: NSFetchedResultsController<Movie>
         
         let request: NSFetchRequest<Movie> = Movie.fetchRequest()
-        let sort = NSSortDescriptor(key: "title", ascending: true)
-        request.sortDescriptors = [sort]
+        let formatSort = NSSortDescriptor(key: "format", ascending: false)
+        let titleSort = NSSortDescriptor(key: "title", ascending: true)
+        request.sortDescriptors = [formatSort, titleSort]
         
-        fetchedResultController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: managedObjectContext, sectionNameKeyPath: "format", cacheName: "myMovieCollection")
         
         do {
             try fetchedResultController.performFetch()
